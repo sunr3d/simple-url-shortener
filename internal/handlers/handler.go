@@ -2,13 +2,15 @@ package httphandlers
 
 import (
 	"github.com/wb-go/wbf/ginext"
+
+	"github.com/sunr3d/simple-url-shortener/internal/interfaces/services"
 )
 
 type Handler struct {
-	svc *shortenersvc.Service
+	svc services.Shortener
 }
 
-func New(svc *shortenersvc.Service) *Handler {
+func New(svc services.Shortener) *Handler {
 	return &Handler{
 		svc: svc,
 	}

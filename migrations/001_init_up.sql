@@ -6,3 +6,6 @@ CREATE TABLE IF NOT EXISTS urls (
 );
 
 CREATE INDEX IF NOT EXISTS idx_urls_code ON urls(code);
+
+GRANT ALL PRIVILEGES ON TABLE urls TO shortener_user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO shortener_user;

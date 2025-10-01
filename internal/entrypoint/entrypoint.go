@@ -8,9 +8,11 @@ import (
 	"syscall"
 
 	"github.com/wb-go/wbf/zlog"
-	
+
 	"github.com/sunr3d/simple-url-shortener/internal/config"
+	httphandlers "github.com/sunr3d/simple-url-shortener/internal/handlers"
 	"github.com/sunr3d/simple-url-shortener/internal/infra/postgres"
+	"github.com/sunr3d/simple-url-shortener/internal/services/shortenersvc"
 )
 
 func Run(cfg *config.Config) error {
@@ -24,11 +26,12 @@ func Run(cfg *config.Config) error {
 		return fmt.Errorf("postgres.New(): %w", err)
 	}
 	// Сервисный слой
+	svc := shortenersvc.New(repo, cfg.BaseURL)
 
 	// REST API (HTTP) + Middleware
+	h := httphandlers.New(svc)
+	engine := h.RegisterHandlers()
 
 	// Server
-
-	<-appCtx.Done()
-	return nil
+	return engine.Run(":" + cfg.HTTPPort)
 }

@@ -3,8 +3,8 @@ package main
 import (
 	"github.com/wb-go/wbf/zlog"
 
-	"github.com/sunr3d/simple-url-shortener/internal/entrypoint"
 	"github.com/sunr3d/simple-url-shortener/internal/config"
+	"github.com/sunr3d/simple-url-shortener/internal/entrypoint"
 )
 
 func main() {
@@ -12,7 +12,7 @@ func main() {
 	zlog.Logger.Info().Msg("запуск приложения...")
 
 	zlog.Logger.Info().Msg("загрузка конфига...")
-	cfg, err := config.GetConfig(".env")
+	cfg, err := config.GetConfig("config.yml")
 	if err != nil {
 		zlog.Logger.Fatal().Err(err).Msg("config.GetConfig")
 	}
