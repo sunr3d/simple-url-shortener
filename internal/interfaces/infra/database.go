@@ -12,4 +12,9 @@ type Database interface {
 	GetLink(ctx context.Context, code string) (*models.Link, error)
 
 	RecordClick(ctx context.Context, click models.ClickAnalytics) error
+
+	GetTotal(ctx context.Context, code string, tr models.TimeRange) (int64, error)
+	GetByDay(ctx context.Context, code string, tr models.TimeRange) ([]models.ClicksByDay, error)
+	GetByMonth(ctx context.Context, code string, tr models.TimeRange) ([]models.ClicksByMonth, error)
+	GetByUserAgent(ctx context.Context, code string, tr models.TimeRange) ([]models.ClicksByUserAgent, error)
 }

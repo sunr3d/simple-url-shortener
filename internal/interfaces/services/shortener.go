@@ -12,4 +12,5 @@ type Shortener interface {
 	FollowLink(ctx context.Context, code string) (string, error)
 
 	RecordClick(ctx context.Context, click models.ClickAnalytics) error
+	GetAnalytics(ctx context.Context, code string, tr models.TimeRange, group string) (models.Analytics, error)
 }
