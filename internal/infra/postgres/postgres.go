@@ -18,6 +18,8 @@ import (
 const (
 	queryCreate = `INSERT INTO urls(code, original_url) values ($1, $2)`
 	queryRead   = `SELECT id, code, original_url, created_at FROM urls WHERE code = $1`
+
+	queryRecordClick = `INSERT INTO url_clicks(url_id, occurred_at, ip_address, user_agent, referrer) SELECT u.id, $5, $3, $2, $4 FROM urls u WHERE u.code = $1`
 )
 
 var _ infra.Database = (*postgresRepo)(nil)
@@ -77,4 +79,19 @@ func (r *postgresRepo) GetLink(ctx context.Context, code string) (*models.Link, 
 	}
 
 	return &l, nil
+}
+
+func (r *postgresRepo) RecordClick(ctx context.Context, click models.ClickAnalytics) error {
+	_, err := r.db.ExecWithRetry(
+		ctx,
+		retry.Strategy{Attempts: 3},
+		queryRecordClick,
+		click.Code,
+		click.UserAgent,
+		click.IP,
+		click.Referrer,
+		click.OccurredAt,
+	)
+
+	return err
 }

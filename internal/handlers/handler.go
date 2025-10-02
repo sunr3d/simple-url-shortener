@@ -3,6 +3,7 @@ package httphandlers
 import (
 	"github.com/wb-go/wbf/ginext"
 
+	"github.com/sunr3d/simple-url-shortener/internal/handlers/middleware"
 	"github.com/sunr3d/simple-url-shortener/internal/interfaces/services"
 )
 
@@ -21,7 +22,7 @@ func (h *Handler) RegisterHandlers() *ginext.Engine {
 	router.Use(ginext.Logger(), ginext.Recovery())
 
 	router.POST("/shorten", h.shortenLink)
-	router.GET("/s/:short_url", h.redirect)
+	router.GET("/s/:short_url", middleware.RedirectAnalytics(h.svc), h.redirect)
 	router.GET("/analytics/:short_url", h.getAnalytics)
 
 	return router

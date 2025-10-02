@@ -70,6 +70,14 @@ func (s *shortenerService) FollowLink(ctx context.Context, code string) (string,
 	return link.Original, nil
 }
 
+func (s *shortenerService) RecordClick(ctx context.Context, click models.ClickAnalytics) error {
+	if strings.TrimSpace(click.Code) == "" {
+		return fmt.Errorf("click.Code не может быть пустым")
+	}
+
+	return s.repo.RecordClick(ctx, click)
+}
+
 // generateCode - генерирует URL совместимый рандомный код.
 func generateCode(n int) (string, error) {
 	b := make([]byte, n)

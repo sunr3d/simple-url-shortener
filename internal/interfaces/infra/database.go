@@ -10,4 +10,6 @@ import (
 type Database interface {
 	Create(ctx context.Context, link *models.Link) error
 	GetLink(ctx context.Context, code string) (*models.Link, error)
+
+	RecordClick(ctx context.Context, click models.ClickAnalytics) error
 }
