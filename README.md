@@ -66,7 +66,7 @@ curl -X POST http://localhost:8080/shorten \
 
 #### Переход по короткой ссылке
 ```bash
-curl -I http://localhost:8080/s/abc12
+curl -X GET http://localhost:8080/s/abc12
 # Возвращает 302 редирект на оригинальный URL
 ```
 
